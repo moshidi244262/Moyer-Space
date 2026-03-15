@@ -79,7 +79,7 @@
 3.  在 “Import Git Repository” 页面，你应该能看到你 Fork 或创建的仓库。点击它旁边的 **`Import`**。
     ![Vercel 导入项目](https://github.com/user-attachments/assets/8ba350d5-04dc-458f-b623-b528210a3a15)
 4.  在配置页面，所有设置保持默认即可。直接点击 **`Deploy`**。
-5.  等待约1分钟，Vercel 将完成构建和部署。部署成功后，你会看到 “Congratulations!” 页面，并显示你的网站地址（如 `https://moyer-space.vercel.app`）。点击该链接即可看到 Moyer Space 的登录界面。
+5.  等待约1分钟，Vercel 将完成构建和部署。部署成功后，你会看到 “Congratulations!” 页面，并显示你的网站地址（如 `https://xxx.vercel.app`）。点击该链接即可看到 Moyer Space 的登录界面。
 
 ### 步骤 6：配置 Vercel 环境变量
 
