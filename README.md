@@ -103,7 +103,7 @@ moyer-space/
 
 1. **克隆项目**
    ```bash
-   git clone https://github.com/your-username/moyer-space.git
+   git clone https://github.com/moshidi244262/moyer-space.git
    cd moyer-space
    ```
 
