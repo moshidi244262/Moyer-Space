@@ -116,7 +116,7 @@
 2.  确认你看到了以下两类变量：
     *   来自加密工具的变量：`APP_SALT`, `APP_PEPPER`, `APP_VERIFY_HASH`, `VAULT_VERIFY_HASH`, `ABYSS_VERIFY_HASH`, `EXPORT_VERIFY_HASH`, `JWT_SECRET`。
     *   来自 Upstash Redis 的变量：`KV_REST_API_URL`, `KV_REST_API_TOKEN`（或 `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`）。
-    ![环境变量总览](https://via.placeholder.com/800x500/000000/ffffff?text=Vercel+Env+Vars+Overview)
+    ![环境变量总览](https://github.com/user-attachments/assets/963608b5-5f40-4470-ac3d-27248b309565)
 
 ### 步骤 9：重新部署
 
