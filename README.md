@@ -81,7 +81,8 @@ moyer-space/
 ├── package.json             # 项目配置文件 (依赖清单与执行脚本)
 ├── README.md                # 本文件 (项目结构与说明)
 ├── LICENSE                  # 开源许可证
-└── Encryptor-v8.1.html      # 加密工具（下载到本地，无需上传到Github，这里做演示）
+├── Encryptor-v8.1.html      # 加密工具（下载到本地，无需上传到Github，这里做演示）
+└── DEVELOPMENT.md           # 快速部署详细指南
 ```
 
 ## 🔧 核心模块详解
