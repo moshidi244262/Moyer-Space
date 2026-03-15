@@ -137,7 +137,7 @@ moyer-space/
 
 | 密码库 (已锁定) | 工具模块 |
 | :---: | :---: |
-| ![密码库](https://github.com/user-attachments/assets/c2c42c2a-3504-4587-8a71-efc8536b57d0) | ![工具](https://via.placeholder.com/400x250/065f46/ffffff?text=Tools+Module) |
+| ![密码库](https://github.com/user-attachments/assets/c2c42c2a-3504-4587-8a71-efc8536b57d0) | ![工具](https://github.com/user-attachments/assets/b8d78f34-d640-4eed-86f1-88362172c0c9) |
 
 ## 📄 许可证
 
