@@ -152,7 +152,7 @@ moyer-space/
 
 | 登录界面 | 主仪表盘 |
 | :---: | :---: |
-| ![登录界面](https://github.com/user-attachments/assets/d2478f02-81ad-43b0-8745-d93f1997922a) | ![主界面](https://github.com/user-attachments/assets/1c0e58ea-b9e8-48a4-ae44-1333c48c830d) |
+| ![登录界面](https://moyermusic.cn/moyer-space-cover/dljm.jpg) | ![主界面](https://github.com/user-attachments/assets/1c0e58ea-b9e8-48a4-ae44-1333c48c830d) |
 
 | 密码库 (已锁定) | 工具模块 |
 | :---: | :---: |
