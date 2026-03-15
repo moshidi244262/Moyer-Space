@@ -8,7 +8,7 @@
 
 1.  **一个 GitHub 账号**：用于托管你的代码仓库。
 2.  **一个 Vercel 账号**：用于部署你的应用。你可以通过 GitHub 账号快速注册。
-3.  **一个 Upstash (Redis) 账号**：用于提供 KV 存储（频率限制功能所需）。Vercel 内置了快速集成。（后续步骤会说）
+3.  **一个 Upstash (Redis) 账号**：用于提供 KV 存储（频率限制功能所需）。Vercel 内置了快速集成。
 4.  **一个现代的网页浏览器**：如 Chrome, Edge, Firefox。
 
 ## 🚀 快速开始：十步部署你的 Moyer Space
@@ -71,6 +71,7 @@
     ```
 4.  **完全删除**，然后将 **步骤 3** 中生成的 **`data.js 数据部分`** 的**全部内容**复制粘贴到这里。
 5.  点击 **`Commit changes`** 提交修改。
+6.  请注意保留 export const ENCRYPTED_DATA = { ... }; 的完整结构，不要漏掉花括号或分号，以免引发语法错误。
 
 ### 步骤 5：部署到 Vercel
 
@@ -109,6 +110,7 @@
     ![Vercel Storage 选择 Upstash](https://github.com/user-attachments/assets/d7c94d60-903d-4a8a-a3ba-f0d2fd1adf7d)
 4.  按照提示，你需要授权 Vercel 访问 Upstash，并可能需要在 Upstash 创建一个免费账户（过程很简单，遵循引导即可）。
 5.  创建成功后，Vercel 会自动将 Redis 连接所需的环境变量（如 `KV_REST_API_URL`, `KV_REST_API_TOKEN`）添加到你的项目 **`Environment Variables`** 中。
+6.  Upstash 的免费套餐每天有 10,000 次请求限制，对于个人自用的频率限制功能来说完全足够。
 
 ### 步骤 8：验证环境变量
 
