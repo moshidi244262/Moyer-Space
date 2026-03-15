@@ -33,7 +33,7 @@
 
 本项目使用一个独立的 HTML 工具来生成加密数据和环境变量。
 
-1.  从本仓库下载 [`Encryptor-v8.1.html`](https://raw.githubusercontent.com/你的用户名/仓库名/main/Encryptor-v8.1.html) 文件到你的电脑。
+1.  从本仓库下载 [`Encryptor-v8.1.html`](https://raw.githubusercontent.com/moshidi244262/Moyer-Space/main/Encryptor-v8.1.html) 文件到你的电脑。
 2.  **重要**：为了安全起见，在你下载后，请**立即从你的 GitHub 仓库中删除此文件**。因为它包含了生成密钥的逻辑，不应公开。
     ```bash
     # 如果你使用命令行，可以这样操作
