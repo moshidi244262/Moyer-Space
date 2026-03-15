@@ -79,7 +79,9 @@ moyer-space/
 │   ├── sw.js                # Service Worker, 实现 PWA 与离线缓存
 │   └── vercel.json          # Vercel 部署路由与控制配置文件
 ├── package.json             # 项目配置文件 (依赖清单与执行脚本)
-└── README.md                # 本文件 (项目结构与说明)
+├── README.md                # 本文件 (项目结构与说明)
+├── LICENSE                  # 开源许可证
+└── Encryptor-v8.1.html      # 加密工具（下载到本地，无需上传到Github，这里做演示）
 ```
 
 ## 🔧 核心模块详解
