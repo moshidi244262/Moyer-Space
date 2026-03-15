@@ -106,7 +106,7 @@
 1.  在 Vercel 项目仪表板，点击顶部 **`Storage`** 选项卡。
 2.  点击 **`Create Database`** 按钮。
 3.  在数据库市场中找到 **`Upstash for Redis`**，点击它。
-    ![Vercel Storage 选择 Upstash](https://via.placeholder.com/800x400/000000/ffffff?text=Vercel+Storage+Marketplace)
+    ![Vercel Storage 选择 Upstash](https://github.com/user-attachments/assets/d7c94d60-903d-4a8a-a3ba-f0d2fd1adf7d)
 4.  按照提示，你需要授权 Vercel 访问 Upstash，并可能需要在 Upstash 创建一个免费账户（过程很简单，遵循引导即可）。
 5.  创建成功后，Vercel 会自动将 Redis 连接所需的环境变量（如 `KV_REST_API_URL`, `KV_REST_API_TOKEN`）添加到你的项目 **`Environment Variables`** 中。
 
