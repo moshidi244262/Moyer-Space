@@ -48,17 +48,36 @@
 
 ```
 moyer-space/
-├── index.html          # 主入口文件，包含 CSP 策略与核心库引用
-├── app.js             # 主应用逻辑 (React SPA 核心，超 2000 行)
 ├── api/
-│   └── data.js        # 核心后端 API，处理鉴权、解密与频率限制
-├── lib/               # 本地化第三方库 (Tailwind, React, Cropper.js 等)
-├── tools/             # 独立工具模块 (图片裁剪、JSON格式化等)
-│   ├── img-crop.js
-│   ├── json-format.js
-│   └── ...
-├── sw.js              # Service Worker，实现 PWA 与离线缓存
-└── README.md          # 本文件
+│   └── data.js              # 核心后端 API，处理鉴权、解密与频率限制
+├── public/                  # 前端静态资源与核心逻辑目录
+│   ├── lib/                 # 本地化第三方库
+│   │   ├── models/          # 存放相关模型文件 (如去背景模型等)
+│   │   ├── cropper.min.css  # Cropper.js 样式文件
+│   │   ├── cropper.min.js   # 核心图片裁剪库
+│   │   ├── crypto-js.min.js # 核心加解密库 
+│   │   ├── framer-motion.js # 动画控制库
+│   │   ├── math.js          # 高级数学库 (支撑科学计算)
+│   │   ├── react-dom.js     # React DOM 
+│   │   ├── react.js         # React 核心库
+│   │   ├── spark-md5.min.js # MD5 哈希计算核心库
+│   │   └── tailwind.js      # Tailwind CSS 运行时
+│   ├── adv-calc.js          # 独立工具：科学计算器
+│   ├── aes-tool.js          # 独立工具：AES 加解密模块
+│   ├── app.js               # 主应用逻辑 (React SPA 核心)
+│   ├── hash-calc.js         # 独立工具：哈希计算模块
+│   ├── icon-192.png         # PWA 应用图标 (192x192)
+│   ├── icon-512.png         # PWA 应用图标 (512x512)
+│   ├── img-crop.js          # 独立工具：图片裁剪控制逻辑
+│   ├── img-remove-bg.js     # 独立工具：图片智能去背景
+│   ├── index.html           # 主入口文件，包含 CSP 策略与核心库引用
+│   ├── json-format.js       # 独立工具：JSON 格式化校验
+│   ├── manifest.json        # PWA 配置文件 (定义应用名称、图标、主题色等)
+│   ├── shanhaige.js         # 独立模块：山海阁数据/功能逻辑
+│   ├── sw.js                # Service Worker, 实现 PWA 与离线缓存
+│   └── vercel.json          # Vercel 部署路由与控制配置文件
+├── package.json             # 项目配置文件 (依赖清单与执行脚本)
+└── README.md                # 本文件 (项目结构与说明)
 ```
 
 ## 🔧 核心模块详解
