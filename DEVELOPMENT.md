@@ -8,7 +8,7 @@
 
 1.  **一个 GitHub 账号**：用于托管你的代码仓库。
 2.  **一个 Vercel 账号**：用于部署你的应用。你可以通过 GitHub 账号快速注册。
-3.  **一个 Upstash (Redis) 账号**：用于提供 KV 存储（频率限制功能所需）。Vercel 内置了快速集成。
+3.  **一个 Upstash (Redis) 账号**：用于提供 KV 存储（频率限制功能所需）。Vercel 内置了快速集成。（后续步骤会说）
 4.  **一个现代的网页浏览器**：如 Chrome, Edge, Firefox。
 
 ## 🚀 快速开始：十步部署你的 Moyer Space
