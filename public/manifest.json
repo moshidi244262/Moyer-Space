@@ -1,0 +1,21 @@
+{
+  "name": "魔师帝的个人空间",
+  "short_name": "Moyer Space",
+  "description": "安全、私密的个人书签与资源保险箱",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
