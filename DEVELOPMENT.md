@@ -55,7 +55,7 @@
 5.  工具会生成两大部分内容：
     *   **`Vercel 环境变量`** 
     *   **`data.js 数据部分`** 
-    ![加密工具界面示意图](https://github.com/user-attachments/assets/9f971237-8f08-4b39-ac07-3dfc48c390e7)
+    ![加密工具界面示意图](https://moyermusic.cn/moyer-space-cover/jmgj.png)
 
 ### 步骤 4：更新源代码中的加密数据
 
@@ -78,7 +78,7 @@
 1.  访问 [Vercel 官网](https://vercel.com) 并登录（推荐使用 GitHub 账号登录）。
 2.  点击 **`Add New...`** -> **`Project`**。
 3.  在 “Import Git Repository” 页面，你应该能看到你 Fork 或创建的仓库。点击它旁边的 **`Import`**。
-    ![Vercel 导入项目](https://github.com/user-attachments/assets/8ba350d5-04dc-458f-b623-b528210a3a15)
+    ![Vercel 导入项目](https://moyermusic.cn/moyer-space-cover/import.png)
 4.  在配置页面，所有设置保持默认即可。直接点击 **`Deploy`**。
 5.  等待约1分钟，Vercel 将完成构建和部署。部署成功后，你会看到 “Congratulations!” 页面，并显示你的网站地址（如 `https://xxx.vercel.app`）。点击该链接即可看到 Moyer Space 的登录界面。
 
@@ -97,7 +97,7 @@
     ...
     ```
 5.  在 Vercel 的添加环境变量界面，有一个 **“Paste from .env.local”** 的链接，点击它。将复制的内容粘贴进弹出的文本框，然后点击 **`Add`**。
-    ![Vercel 粘贴环境变量](https://github.com/user-attachments/assets/a2da7756-e2b5-4b21-b541-75d3186793be)
+    ![Vercel 粘贴环境变量](https://moyermusic.cn/moyer-space-cover/hjbl.jpg)
 6.  系统会自动解析并添加所有变量。确认它们都已列出。
 
 ### 步骤 7：创建数据库 (Redis) - 启用频率限制
@@ -107,7 +107,7 @@
 1.  在 Vercel 项目仪表板，点击顶部 **`Storage`** 选项卡。
 2.  点击 **`Create Database`** 按钮。
 3.  在数据库市场中找到 **`Upstash for Redis`**，点击它。
-    ![Vercel Storage 选择 Upstash](https://github.com/user-attachments/assets/d7c94d60-903d-4a8a-a3ba-f0d2fd1adf7d)
+    ![Vercel Storage 选择 Upstash](https://moyermusic.cn/moyer-space-cover/redis.png)
 4.  按照提示，你需要授权 Vercel 访问 Upstash，并可能需要在 Upstash 创建一个免费账户（过程很简单，遵循引导即可）。
 5.  创建成功后，Vercel 会自动将 Redis 连接所需的环境变量（如 `KV_REST_API_URL`, `KV_REST_API_TOKEN`）添加到你的项目 **`Environment Variables`** 中。
 6.  Upstash 的免费套餐每天有 10,000 次请求限制，对于个人自用的频率限制功能来说完全足够。
@@ -118,7 +118,7 @@
 2.  确认你看到了以下两类变量：
     *   来自加密工具的变量：`APP_SALT`, `APP_PEPPER`, `APP_VERIFY_HASH`, `VAULT_VERIFY_HASH`, `ABYSS_VERIFY_HASH`, `EXPORT_VERIFY_HASH`, `JWT_SECRET`。
     *   来自 Upstash Redis 的变量：`KV_REST_API_URL`, `KV_REST_API_TOKEN`（或 `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`）。
-    ![环境变量总览](https://github.com/user-attachments/assets/963608b5-5f40-4470-ac3d-27248b309565)
+    ![环境变量总览](https://moyermusic.cn/moyer-space-cover/hjbl2.jpg)
 
 ### 步骤 9：重新部署
 
@@ -126,7 +126,7 @@
 
 1.  在 Vercel 项目仪表板的 **`Deployments`** 选项卡下，找到最近的一次部署记录。
 2.  点击右侧的 **`...`** (更多) 菜单，选择 **`Redeploy`**。
-    ![Vercel 重新部署](https://github.com/user-attachments/assets/5d6fd268-c30b-47d3-869f-d382da76a540)
+    ![Vercel 重新部署](https://moyermusic.cn/moyer-space-cover/redeploy.jpg)
 
 ### 步骤 10：访问你的空间！
 
