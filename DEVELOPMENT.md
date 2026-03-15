@@ -96,7 +96,7 @@
     ...
     ```
 5.  在 Vercel 的添加环境变量界面，有一个 **“Paste from .env.local”** 的链接，点击它。将复制的内容粘贴进弹出的文本框，然后点击 **`Add`**。
-    ![Vercel 粘贴环境变量](https://via.placeholder.com/800x400/000000/ffffff?text=Vercel+Add+Env+Vars+View)
+    ![Vercel 粘贴环境变量](https://github.com/user-attachments/assets/a2da7756-e2b5-4b21-b541-75d3186793be)
 6.  系统会自动解析并添加所有变量。确认它们都已列出。
 
 ### 步骤 7：创建数据库 (Redis) - 启用频率限制
