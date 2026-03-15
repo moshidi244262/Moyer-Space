@@ -124,7 +124,7 @@
 
 1.  在 Vercel 项目仪表板的 **`Deployments`** 选项卡下，找到最近的一次部署记录。
 2.  点击右侧的 **`...`** (更多) 菜单，选择 **`Redeploy`**。
-    ![Vercel 重新部署](https://via.placeholder.com/800x200/000000/ffffff?text=Vercel+Redeploy+Menu)
+    ![Vercel 重新部署](https://github.com/user-attachments/assets/5d6fd268-c30b-47d3-869f-d382da76a540)
 
 ### 步骤 10：访问你的空间！
 
