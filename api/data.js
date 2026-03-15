@@ -5,7 +5,7 @@ import crypto from 'crypto';
 // ==========================================
 // 安全配置：CORS 来源锁定
 // ==========================================
-const ALLOWED_ORIGIN = 'https://moyer.vercel.app';
+const ALLOWED_ORIGIN = 'https://moyer-space.vercel.app';
 
 // ==========================================
 // 核心环境配置 (读取所有层级的 Hash)
