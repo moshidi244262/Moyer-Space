@@ -152,11 +152,11 @@ moyer-space/
 
 | 登录界面 | 主仪表盘 |
 | :---: | :---: |
-| ![登录界面](https://moyermusic.cn/moyer-space-cover/dljm.jpg) | ![主界面](https://github.com/user-attachments/assets/1c0e58ea-b9e8-48a4-ae44-1333c48c830d) |
+| ![登录界面](https://moyermusic.cn/moyer-space-cover/dljm.jpg) | ![主界面](https://moyermusic.cn/moyer-space-cover/zybp.jpg) |
 
 | 密码库 (已锁定) | 工具模块 |
 | :---: | :---: |
-| ![密码库](https://github.com/user-attachments/assets/c2c42c2a-3504-4587-8a71-efc8536b57d0) | ![工具](https://github.com/user-attachments/assets/b8d78f34-d640-4eed-86f1-88362172c0c9) |
+| ![密码库](https://moyermusic.cn/moyer-space-cover/mmk.jpg) | ![工具](https://moyermusic.cn/moyer-space-cover/gjmk.jpg) |
 
 ## 🔄 如何同步后续更新
 
