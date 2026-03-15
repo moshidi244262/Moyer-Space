@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/qiniu-proxy/:match*",
-      "destination": "http://moyermusic.cn/:match*"
-    }
-  ]
-}
