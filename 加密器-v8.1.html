@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moyer - Vercel 安全配置生成器 (v8.1 Shared Lock Fix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-200 p-8">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const DEFAULT_PEPPER = "Moyer_Safe_Vault_2026_Fixed_Pepper_@Secret";
+
+        const INITIAL_DATA = {
+            passwords: [
+                { id: 1, title: '教务系统', account: '220126', password: '24y.', note: '每学期选课使用' }
+            ],
+            websites: [
+                { id: 1, name: 'Bilibili', url: 'https://www.bilibili.com', desc: '国内知名的视频弹幕网站', category: 'video' },
+                { id: 2, name: 'Google', url: 'https://www.google.com', desc: '全球最大的搜索引擎', category: 'tools' }
+            ],
+            games: [
+                { id: 1, title: '空洞骑士', platform: 'steam', action: '367520', desc: '进入被遗忘的王国', cover: 'https://cdn.akamai.steamstatic.com/steam/apps/367520/header.jpg', color: 'from-slate-700 to-slate-900' },
+                { id: 2, title: '植物大战僵尸', platform: 'steam', action: '3590', desc: '僵尸正在靠近...', cover: 'https://cdn.akamai.steamstatic.com/steam/apps/3590/header.jpg', color: 'from-green-600 to-green-800' },
+                { id: 4, title: '星露谷物语', platform: 'steam', action: '413150', desc: '开始你的农场生活', cover: 'https://cdn.akamai.steamstatic.com/steam/apps/413150/header.jpg', color: 'from-amber-500 to-orange-600' },
+                { id: 5, title: '植物大战僵尸融合版', platform: 'local', action: '"D:\\Download\\Quark\\植物大战僵尸融合版3.4.1\\PlantsVsZombiesRH.exe"', desc: '非常好玩的植物大战僵尸二创', cover:'./images/5.jpg', color: 'from-blue-600 to-purple-600' }
+            ],
+            // 新增：心之渊数据结构
+            abyss: [
+                { 
+                    id: 1, 
+                    title: '夏夏夏', 
+                    type: 'RPG', 
+                    action: '"E:\\Pro\\夏夏夏\\Game.exe"', 
+                    folder: '"E:\\Pro\\夏夏夏"',
+                    cover: 'https://cdn.jsdelivr.net/gh/moshidi244262/picture@main/images/h0.jpg',
+                    version: '1.02', 
+                    desc: '青梅竹马的暑假故事...', 
+                    // 这里使用反引号，App端会自动添加“游戏详情”标题
+                    details: `123` 
+                }
+            ]
+        };
+
+        const App = () => {
+            const [jsonText, setJsonText] = useState(JSON.stringify(INITIAL_DATA, null, 2));
+            const [mainPassword, setMainPassword] = useState(''); 
+            const [vaultPassword, setVaultPassword] = useState('');
+            const [exportPassword, setExportPassword] = useState('');
+            const [abyssPassword, setAbyssPassword] = useState('');
+            const [pepper, setPepper] = useState(DEFAULT_PEPPER);
+            
+            const [envOutput, setEnvOutput] = useState('');
+            const [dataOutput, setDataOutput] = useState('');
+            const [isProcessing, setIsProcessing] = useState(false);
+            const [status, setStatus] = useState('');
+
+            const enc = new TextEncoder();
+            const strToBuf = (str) => enc.encode(str);
+            const bufToBase64 = (buf) => {
+                let binary = '';
+                const bytes = new Uint8Array(buf);
+                const len = bytes.byteLength;
+                for (let i = 0; i < len; i++) binary += String.fromCharCode(bytes[i]);
+                return window.btoa(binary);
+            };
+
+            // 1. 加密用的 Key 生成 (保持原样，直接用明文密码 + Salt)
+            // 因为前端解密时使用的是用户输入的明文密码
+            const deriveEncryptionKey = async (password, saltBuf) => {
+                const keyMaterial = await window.crypto.subtle.importKey(
+                    "raw", strToBuf(password), { name: "PBKDF2" }, false, ["deriveKey"]
+                );
+                return await window.crypto.subtle.deriveKey(
+                    { name: "PBKDF2", salt: saltBuf, iterations: 200000, hash: "SHA-256" },
+                    keyMaterial, { name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"]
+                );
+            };
+
+            const encryptData = async (dataObj, key) => {
+                const iv = window.crypto.getRandomValues(new Uint8Array(12)); 
+                const encodedData = strToBuf(JSON.stringify(dataObj));
+                const cipherBuffer = await window.crypto.subtle.encrypt(
+                    { name: "AES-GCM", iv: iv }, key, encodedData
+                );
+                const combined = new Uint8Array(iv.byteLength + cipherBuffer.byteLength);
+                combined.set(iv);
+                combined.set(new Uint8Array(cipherBuffer), iv.byteLength);
+                return bufToBase64(combined.buffer);
+            };
+
+            // 2. 【核心修复】验证用的 Hash 生成
+            // 前端逻辑：用户输入 -> SHA256 -> 发送给服务器
+            // 服务器逻辑：收到 SHA256 -> 拼接 Pepper -> PBKDF2 -> 比对
+            // 生成器必须模拟这个过程！
+            const generateVerifyHash = async (password, saltBuf) => {
+                // 第一步：模拟前端行为，先对明文密码进行 SHA256
+                const shaBuffer = await window.crypto.subtle.digest("SHA-256", strToBuf(password));
+                const clientHashHex = Array.from(new Uint8Array(shaBuffer))
+                    .map(b => b.toString(16).padStart(2, '0')).join('');
+
+                // 第二步：模拟后端行为，拼接 Pepper 进行 PBKDF2
+                 const keyMaterial = await window.crypto.subtle.importKey(
+                    "raw", strToBuf(clientHashHex + pepper), // 注意：这里用的是 clientHashHex，不是 password
+                    { name: "PBKDF2" }, false, ["deriveBits"]
+                );
+                const derivedBits = await window.crypto.subtle.deriveBits(
+                    { name: "PBKDF2", salt: saltBuf, iterations: 200000, hash: "SHA-256" },
+                    keyMaterial, 256
+                );
+                const hashBuffer = await window.crypto.subtle.digest("SHA-256", derivedBits);
+                return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            };
+
+            const handleGenerate = async () => {
+                if (!mainPassword || !vaultPassword || !exportPassword || !abyssPassword) {
+                    setStatus('错误：请填写所有层级的密码');
+                    return;
+                }
+                
+                setIsProcessing(true);
+                setStatus('正在生成 v8.1 (修复版) 加密配置...');
+
+                try {
+                    let fullData;
+                    try {
+                        fullData = new Function("return " + jsonText)();
+                    } catch (e) {
+                        fullData = JSON.parse(jsonText);
+                    }
+
+                    const saltBytes = window.crypto.getRandomValues(new Uint8Array(16));
+                    const saltHex = Array.from(saltBytes).map(b => b.toString(16).padStart(2, '0')).join('');
+                    
+                    // 生成加密密钥 (用于加密数据)
+                    const mainKey = await deriveEncryptionKey(mainPassword, saltBytes);
+                    const vaultKey = await deriveEncryptionKey(vaultPassword, saltBytes);
+                    const exportKey = await deriveEncryptionKey(exportPassword, saltBytes);
+                    const abyssKey = await deriveEncryptionKey(abyssPassword, saltBytes);
+
+                    // 生成验证 Hash (用于服务器验证，必须包含 SHA256 预处理)
+                    const appVerifyHash = await generateVerifyHash(mainPassword, saltBytes);
+                    const vaultVerifyHash = await generateVerifyHash(vaultPassword, saltBytes);
+                    const abyssVerifyHash = await generateVerifyHash(abyssPassword, saltBytes);
+                    const exportVerifyHash = await generateVerifyHash(exportPassword, saltBytes);
+
+                    // 加密数据
+                    const exportCipher = await encryptData(fullData, exportKey);
+                    const vaultCipher = await encryptData({ passwords: fullData.passwords }, vaultKey);
+                    const abyssCipher = await encryptData({ abyss: fullData.abyss }, abyssKey);
+                    
+                    const publicPayload = {
+                        websites: fullData.websites,
+                        games: fullData.games,
+                        exportCipher: exportCipher 
+                    };
+                    const mainCipher = await encryptData(publicPayload, mainKey);
+
+                    // 生成 Env 文本
+                    const envText = `APP_SALT=${saltHex}
+APP_PEPPER=${pepper}
+APP_VERIFY_HASH=${appVerifyHash}
+VAULT_VERIFY_HASH=${vaultVerifyHash}
+ABYSS_VERIFY_HASH=${abyssVerifyHash}
+EXPORT_VERIFY_HASH=${exportVerifyHash}
+JWT_SECRET=${Math.random().toString(36).substring(2)}`;
+                    setEnvOutput(envText);
+
+                    const jsCode = `
+// ==========================================
+// Moyer 安全数据 (Generated: ${new Date().toLocaleString()})
+// ==========================================
+// 架构: Split Auth + Shared IP Lock (v8.1 Fix)
+
+export const ENCRYPTED_DATA = {
+    mainCipher: "${mainCipher}",
+    vaultCipher: "${vaultCipher}",
+    abyssCipher: "${abyssCipher}"
+};
+`;
+                    setDataOutput(jsCode);
+                    setStatus('生成成功！请务必更新 Vercel 环境变量。');
+
+                } catch (err) {
+                    console.error(err);
+                    setStatus('生成失败：' + err.message);
+                } finally {
+                    setIsProcessing(false);
+                }
+            };
+
+            return (
+                <div className="max-w-6xl mx-auto font-sans pb-20">
+                    <h1 className="text-3xl font-bold mb-2 flex items-center gap-2 text-indigo-400">
+                        <span>🛡️</span> Vercel 安全配置生成器 (v8.1 Fix)
+                    </h1>
+                    <p className="text-slate-500 mb-8">修复版：正确模拟前端 SHA256 行为，解决密码错误问题。</p>
+
+                    <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <label className="text-xs font-bold text-blue-400 uppercase">1. 全局访问密码</label>
+                            <input type="text" value={mainPassword} onChange={e => setMainPassword(e.target.value)} className="w-full mt-2 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-white font-mono focus:border-blue-500 outline-none" placeholder="Login Password" />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-purple-400 uppercase">2. 密码库密码</label>
+                            <input type="text" value={vaultPassword} onChange={e => setVaultPassword(e.target.value)} className="w-full mt-2 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-white font-mono focus:border-purple-500 outline-none" placeholder="Vault Password" />
+                        </div>
+                        <div>
+                            <label className="text-xs font-bold text-pink-400 uppercase">3. 导出数据密码</label>
+                            <input type="text" value={exportPassword} onChange={e => setExportPassword(e.target.value)} className="w-full mt-2 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-white font-mono focus:border-pink-500 outline-none" placeholder="Export Password" />
+                        </div>
+                         <div>
+                            <label className="text-xs font-bold text-red-500 uppercase">4. 心之渊密码</label>
+                            <input type="text" value={abyssPassword} onChange={e => setAbyssPassword(e.target.value)} className="w-full mt-2 bg-slate-900 border border-red-900/50 rounded px-3 py-2 text-red-400 font-mono focus:border-red-500 outline-none" placeholder="Abyss Secret" />
+                        </div>
+                        <div className="lg:col-span-4">
+                            <label className="text-xs font-bold text-emerald-400 uppercase">System Pepper</label>
+                            <input type="text" value={pepper} onChange={e => setPepper(e.target.value)} className="w-full mt-2 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-emerald-400 font-mono focus:border-emerald-500 outline-none" placeholder="Secret for Env Vars" />
+                        </div>
+                    </div>
+                    
+                    <div className="mb-4">
+                        <label className="text-xs font-bold text-slate-400 uppercase flex justify-between">
+                            <span>原始数据 (粘贴之前的 JSON)</span>
+                        </label>
+                        <textarea value={jsonText} onChange={e => setJsonText(e.target.value)} className="w-full h-96 mt-2 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-slate-300 font-mono text-xs outline-none focus:border-indigo-500 leading-5"></textarea>
+                    </div>
+
+                    <button onClick={handleGenerate} disabled={isProcessing} className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg mb-8 transition-all ${isProcessing ? 'bg-slate-700 text-slate-500' : 'bg-indigo-600 hover:bg-indigo-500 text-white'}`}>
+                        {isProcessing ? '正在计算...' : '生成 v8.1 修复版配置'}
+                    </button>
+
+                    {envOutput && (
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-fade-in">
+                            <div className="space-y-2">
+                                <h3 className="font-bold text-yellow-400">步骤 1: 更新 Vercel 环境变量 (全部替换)</h3>
+                                <textarea readOnly value={envOutput} className="w-full h-40 bg-slate-950 border border-yellow-900/50 rounded-lg p-4 font-mono text-xs text-yellow-100/80 outline-none resize-none" onClick={e => e.target.select()}></textarea>
+                            </div>
+
+                            <div className="space-y-2">
+                                <h3 className="font-bold text-green-400">步骤 2: 更新 data.js 数据部分</h3>
+                                <textarea readOnly value={dataOutput} className="w-full h-40 bg-slate-950 border border-green-900/50 rounded-lg p-4 font-mono text-xs text-green-100/80 outline-none resize-none" onClick={e => e.target.select()}></textarea>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
