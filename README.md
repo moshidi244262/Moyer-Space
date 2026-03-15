@@ -158,6 +158,18 @@ moyer-space/
 | :---: | :---: |
 | ![密码库](https://github.com/user-attachments/assets/c2c42c2a-3504-4587-8a71-efc8536b57d0) | ![工具](https://github.com/user-attachments/assets/b8d78f34-d640-4eed-86f1-88362172c0c9) |
 
+## 🔄 如何同步后续更新
+
+如果本原始仓库 (Moyer-Space) 发布了新功能或修复了 Bug，你可以非常简单地将更新同步到你自己的空间中，且**不会丢失你的环境变量和密码配置**：
+
+1.  登录 GitHub，进入你 Fork 的 `Moyer-Space` 仓库页面。
+2.  在仓库代码列表的上方，找到并点击 **`Sync fork`** 按钮。
+3.  如果显示有新的 Commits，点击 **`Update branch`** 确认同步。
+4.  **自动部署**：一旦你的 GitHub 仓库完成更新，Vercel 会自动检测到代码变动，并立即触发一次新的后台部署。
+5.  等待约 1 分钟，刷新你的网站，即可体验最新版本！
+
+> **💡 注意**：只要你不手动修改 `api/data.js` 中的加密数据部分，你的所有自定义密码和书签数据在更新后都会安全保留。
+
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
