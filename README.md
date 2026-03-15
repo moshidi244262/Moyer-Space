@@ -45,3 +45,95 @@
 | **工程化** | PWA、动态模块加载、响应式设计、CORS 策略管理 |
 
 ## 📁 项目结构
+
+```
+moyer-space/
+├── index.html          # 主入口文件，包含 CSP 策略与核心库引用
+├── app.js             # 主应用逻辑 (React SPA 核心，超 2000 行)
+├── api/
+│   └── data.js        # 核心后端 API，处理鉴权、解密与频率限制
+├── lib/               # 本地化第三方库 (Tailwind, React, Cropper.js 等)
+├── tools/             # 独立工具模块 (图片裁剪、JSON格式化等)
+│   ├── img-crop.js
+│   ├── json-format.js
+│   └── ...
+├── sw.js              # Service Worker，实现 PWA 与离线缓存
+└── README.md          # 本文件
+```
+
+## 🔧 核心模块详解
+
+### 1. 安全登录与数据流 (`app.js` + `api/data.js`)
+- **前端**：用户输入密码 -> `SHA-256` 哈希 -> 发送至后端。
+- **后端**：接收哈希值 -> 拼接 `Pepper` -> `PBKDF2` 派生 -> 与存储的 `Hash` 比对 -> 返回 `JWT` 及加密数据包。
+- **解密**：前端使用用户输入的**原始密码**和服务器返回的 `Salt`，本地派生密钥，解密对应层级的数据。
+
+### 2. 权限分级与自动锁定
+- **密码库**、**心之渊** 等敏感区域需二次验证，并设有活动超时自动锁定机制（如 10分钟无操作）。
+- 通过 `setTimeout` 与事件监听 (`mousemove`, `keydown`) 实现智能会话管理。
+
+### 3. 动态工具系统
+- 工具以独立 `js` 文件存在，通过 `?tool=id` 的 URL 参数在新标签页动态加载。
+- 每个工具模块需向全局 `window.AppTools` 注册组件，主路由 (`ToolRunner`) 负责渲染。
+
+### 4. 伪装模式 (Stealth Mode)
+- 按下 `ESC` 键可瞬间切换至高度仿真的 Google 搜索页面，用于在公共场合隐藏真实界面。
+- 再次双击或按 `ESC` 退出并登出。
+
+## 🚀 快速开始 (开发)
+
+1. **克隆项目**
+   ```bash
+   git clone https://github.com/your-username/moyer-space.git
+   cd moyer-space
+   ```
+
+2. **环境配置 (用于本地测试 API)**
+   - 复制 `api/data.js` 中的 `ENCRYPTED_DATA` 占位符。
+   - 使用项目内提供的 `加密器.html` 工具，生成你的测试数据和对应的环境变量。
+   - 在 Vercel 项目中配置生成的 `APP_SALT`, `APP_PEPPER`, `*_VERIFY_HASH` 等环境变量。
+
+3. **本地运行**
+   - 由于使用了 ES 模块和特定 CSP，建议使用如 `Live Server` 等本地服务器打开 `index.html`。
+   - 后端 API 需部署到 Vercel 才能正常进行密码验证。
+
+4. **部署**
+   - 连接你的 GitHub 仓库至 [Vercel](https://vercel.com)，配置环境变量。
+   - 推送代码，Vercel 将自动完成构建与全球部署。
+
+## 🧠 架构亮点与思考
+
+1.  **“前端哈希，后端验证”**：巧妙平衡了用户体验与安全性。前端预处理避免了明文传输，后端复杂的 `PBKDF2` 增加了破解成本。
+2.  **数据分片加密**：公开数据、密码、私密游戏库使用不同密钥加密，一次主登录仅解密公开部分，符合隐私设计原则。
+3.  **无状态 IP 锁**：利用 Redis 实现轻量级、分布式的攻击防御，无需维护复杂的状态。
+4.  **工程化取舍**：为追求极致的部署简便性与加载速度，选择了 CDN 引入 React 而非本地构建，体现了对项目实际需求的精准判断。
+
+## 📸 界面预览
+
+> *注：以下为示意图，实际项目包含更多细节与交互动效。*
+
+| 登录界面 | 主仪表盘 |
+| :---: | :---: |
+| ![登录界面](https://via.placeholder.com/400x250/0f172a/ffffff?text=Secure+Login) | ![主界面](https://via.placeholder.com/400x250/1e293b/ffffff?text=Dashboard+View) |
+
+| 密码库 (已锁定) | 工具模块 |
+| :---: | :---: |
+| ![密码库](https://via.placeholder.com/400x250/334155/ffffff?text=Vault+Locked) | ![工具](https://via.placeholder.com/400x250/065f46/ffffff?text=Tools+Module) |
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 👨‍💻 作者
+
+**魔师帝 (Moshidi)** - 一位对全栈开发、安全架构和产品体验充满热情的工科生。
+
+- GitHub: [@moshidi244262](https://github.com/moshidi244262)
+- 项目灵感源于对个人数据主权和效率工具的持续追求。
+
+---
+
+**如果这个项目对你有启发，请点个 ⭐ Star 支持！欢迎 Fork 和提出建议。**
+```
+
+---
