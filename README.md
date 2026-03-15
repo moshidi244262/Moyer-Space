@@ -103,26 +103,20 @@ moyer-space/
 - 按下 `ESC` 键可瞬间切换至高度仿真的 Google 搜索页面，用于在公共场合隐藏真实界面。
 - 再次双击或按 `ESC` 退出并登出。
 
-## 🚀 快速开始 (开发)
+## 🚀 快速开始
 
-1. **克隆项目**
-   ```bash
-   git clone https://github.com/moshidi244262/moyer-space.git
-   cd moyer-space
-   ```
+想要部署一个属于自己的 Moyer Space 实例吗？我们准备了详细的逐步指南。
 
-2. **环境配置 (用于本地测试 API)**
-   - 复制 `api/data.js` 中的 `ENCRYPTED_DATA` 占位符。
-   - 使用项目内提供的 `加密器.html` 工具，生成你的测试数据和对应的环境变量。
-   - 在 Vercel 项目中配置生成的 `APP_SALT`, `APP_PEPPER`, `*_VERIFY_HASH` 等环境变量。
+**👉 请移步至 [DEVELOPMENT.md](./DEVELOPMENT.md) 查看完整的部署教程。**
 
-3. **本地运行**
-   - 由于使用了 ES 模块和特定 CSP，建议使用如 `Live Server` 等本地服务器打开 `index.html`。
-   - 后端 API 需部署到 Vercel 才能正常进行密码验证。
+该教程将引导你完成：
+- 获取源代码
+- 生成加密数据与密钥
+- 在 Vercel 上部署
+- 配置环境变量与 Redis 数据库
+- 最终上线你的个人空间
 
-4. **部署**
-   - 连接你的 GitHub 仓库至 [Vercel](https://vercel.com)，配置环境变量。
-   - 推送代码，Vercel 将自动完成构建与全球部署。
+（整个过程大约需要 **15-20 分钟**。）
 
 ## 🧠 架构亮点与思考
 
