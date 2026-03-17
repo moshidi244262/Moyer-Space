@@ -2,7 +2,7 @@
 
 > **一个由独立开发者设计并实现的高安全性、模块化个人效率平台。**
 > 
-> **在线演示 (Demo):** [https://moyer-space.vercel.app](https://moyer-space.vercel.app) | **项目状态:** 🚀 随时就绪(需科学上网)
+> **在线演示 (Demo):** [https://moyer-space.vercel.app](https://moyer-space.vercel.app) | **项目状态:** 🚀 随时就绪  (需科学上网)
 > 
 > **🔑 体验密码:** 本公开版的所有加密层级（主登录、密码库、心之渊、导出等）默认密码均为 **`123456`**
 
